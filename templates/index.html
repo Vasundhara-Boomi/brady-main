@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BradyKinesia Assessment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+    
+    <style>
+        .dropzone {
+            border: 2px dashed #ccc;
+            width: fit-content;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+        .dropzone:hover {
+            background-color: #f2f2f2;
+        }
+        #submit-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #submit-btn:hover {
+            background-color: #3e8e41;
+        }
+        div#loading {
+    width: 35px;
+    height: 35px;
+    display: none;
+    background: url(/static/loadingimage.gif) no-repeat;
+    cursor: wait;
+    }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>File Upload</h1>
+    <form action="{{ url_for('upload_files') }}" id="file-upload-form">
+        <div class="dropzone">
+            <div id="dz-message">
+                <h2>Drag and drop a video file here or click to upload</h2>
+            </div>
+        </div>
+    </form>
+    <button id="submit-btn" type="submit" form="file-upload-form" onclick="loading();">Upload Video</button>
+    </center>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        var myDropzone = new Dropzone("div.dropzone", {
+            url: "/upload",
+            maxFiles: 1,
+            acceptedFiles: ".mp4, .avi, .mov, .wmv",
+            maxFilesize: 20, // MB
+            uploadMultiple: false,
+            autoProcessQueue: false,
+        });
+        document.getElementById("submit-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (myDropzone.getQueuedFiles().length > 0) {
+                myDropzone.processQueue();
+            } else {
+                alert("Please select a file to upload.");
+            }
+        });
+    </script>
+    <script type="text/javascript">// <![CDATA[
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();       
+        }
+// ]]></script>
+</body>
+</html>
