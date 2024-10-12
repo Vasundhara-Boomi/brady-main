@@ -15,6 +15,8 @@ class BPlot:
         self.category = 0
         self.jsondata = {}
         self.distances = []
+        self.slopes = []
+        self.avg = 0
 
     def convert(self):
         with open(self.filename,'rb') as fh:
@@ -106,9 +108,6 @@ class BPlot:
                     plt.gca().invert_yaxis()
                     #plt.show()
 
-    # Define the distance calculation function
-    
-
     def plot_amplitude(self):
         json_data = self.jsondata
         if isinstance(json_data, str):
@@ -139,7 +138,10 @@ class BPlot:
 
         # Convert distances to a numpy array
         distances_array = np.array(self.distances)
-
+        summ = 0
+        for i in self.distances:
+            summ += i
+        self.avg = summ/len(self.distances)
         # Find only local maxima (peaks) and local minima (troughs) separately
         peaks_indices, _ = find_peaks(distances_array, distance=5, prominence=20)  # Adjust prominence for clearer peak detection
         troughs_indices, _ = find_peaks(-distances_array, distance=5, prominence=10)  # Detect troughs by finding peaks in the negative array
@@ -169,12 +171,14 @@ class BPlot:
         # Calculate regression lines for each section
         sections = [(0, 150), (150, 300), (300, 450)]
         colors = ['black', 'black', 'black']
+        self.slopes = []
         for i, (start, end) in enumerate(sections):
             section_indices = [j for j, x in enumerate(peaks_indices + 1) if start <= x <= end]
             section_x = np.array([peaks_indices[j] + 1 for j in section_indices])
             section_y = np.array([highest_points[j] for j in section_indices])
             coeffs = np.polyfit(section_x, section_y, 1)
             slope = coeffs[0]  # slope is the first coefficient
+            self.slopes.append(slope)
             regression_line = np.poly1d(coeffs)
             x_range = np.linspace(start, end, 100)
             ax.plot(x_range, regression_line(x_range), color=colors[i], label=f'Section {i+1} (Slope: {slope:.2f})')
@@ -219,6 +223,23 @@ class BPlot:
         # Show plot
         #plt.show()
         return self.export_plot_to_base64(plt)
+
+    def determine_severity(self):
+        a = self.slopes[0]
+        b = self.slopes[1]
+        c = self.slopes[2]
+        if a <= -1:
+            self.category = 3
+        elif b <= -1:
+            self.category = 2
+        elif c <= -1:
+            self.category = 1
+        else:
+            if self.avg > 200:
+                self.category = 0
+            else:
+                self.category = 4
+        return self.category
 
     def export_plot_to_base64(self, plt):
         """Converts plot to base64 to be used in HTML display."""

@@ -48,7 +48,9 @@ def video_display():
     # Plot and return base64 encoded image for HTML
     graph_image = plotter.plot_amplitude()
     distance_image = plotter.plot_speed()
-    return render_template('video_display.html', video=video_url,graph_image=graph_image, distance_image=distance_image)
+
+    severity = plotter.determine_severity()
+    return render_template('video_display.html', video=video_url,graph_image=graph_image, distance_image=distance_image, score=severity)
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True, port=8000)
