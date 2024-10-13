@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, jsonify, url_for
 import os
 from bplot import BPlot
 
@@ -8,7 +8,7 @@ UPLOAD_FOLDER = "./uploads/"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # 50 MB limit
 
-# Mapping of filenames to video URLs
+# Mapping of filenames to video URLs and JSON files
 mapping = {
     'severe.MOV': ['AlphaPose_severe.mp4', 'alphapose-results-severe (1).json'],
     'mild.MOV': ['AlphaPose_mild.mp4', 'alphapose-results-mild.json'],
@@ -45,12 +45,12 @@ def video_display():
     plotter = BPlot(videotype[:-4])
     plotter.convert()
     
-    # Plot and return base64 encoded image for HTML
+    # Generate Plotly plots for amplitude and speed
     graph_image = plotter.plot_amplitude()
     distance_image = plotter.plot_speed()
 
     severity = plotter.determine_severity()
-    return render_template('video_display.html', video=video_url,graph_image=graph_image, distance_image=distance_image, score=severity)
+    return render_template('video_display.html', video=video_url, graph_image=graph_image, distance_image=distance_image, score=severity)
 
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True, port=8000)
