@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Display</title>
+    <title>Bradykinesia Score</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f4f4f4;
         }
 
@@ -29,7 +32,7 @@
             position: -webkit-sticky;
             position: sticky;
             justify-self: center;
-            padding-left: 150px;
+            padding-left: 100px;
             top: 30px;
         }
 
@@ -38,11 +41,26 @@
             padding-left: 20px;
         }
 
+        /* Heading Style */
+        h1.main-title {
+            text-align: center;
+            width: 96.4%;
+            margin: 20px 0; /* Spacing around the heading */
+            font-size: 2.5em; /* Increased font size */
+            color: #000000; /* Distinct color */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+            border: 3px solid #4CAF50; /* Bottom border */
+            padding: 20px; /* Padding around the text */
+            background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow effect */
+        }
+
         /* Centered header */
         h1 {
             text-align: center;
             width: 100%;
-            margin: 20px 0;
+            margin: 1px 0;
         }
 
         /* Video Style */
@@ -60,7 +78,6 @@
             width: 100%;
             height: auto;
             border: 5px solid #4CAF50;
-            
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
             margin-right: 30px;
@@ -70,40 +87,95 @@
             width: 100%;
             height: auto;
             border: 5px solid #4CAF50;
-            
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
             margin-right: 30px;
         }
 
+        /* Highlighting the results display */
         #results {
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: #d1e7dd; /* Light green background */
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
+
+        #results h1 {
+            color: #155724; /* Darker green color for text */
+        }
+
+
         table {
             width: 70%;
             padding: 10px;
             border-collapse: collapse;
             margin-bottom: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden; /* To ensure border-radius is applied */
         }
+
         th, td {
             border: 2px solid #4CAF50;
-            border-radius: 10px;
+            
             padding: 8px;
             text-align: left;
+            transition: background-color 0.3s;
         }
+
         th {
-            background-color: #f2f2f2;
+            background-color: #4CAF50;
+            color: white;
         }
+
+        tbody tr:hover {
+            background-color: #e8f5e9; /* Light green background on hover */
+        }
+        
         caption {
             font-weight: bold;
             margin-bottom: 10px;
         }
+
+        /* Footer Style */
+        footer {
+            text-align: center;
+            padding: 5px 0;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer hr {
+            border: 1px solid white;
+            width: 80%;
+        }
+
+        /* Add some spacing at the bottom */
+        body {
+            margin-bottom: 40px;
+        }
     </style>
 </head>
 <body>
-    <h1>Results</h1>
+    <h1 class="main-title">Bradykinesia Analysis via Finger Tapping</h1>
     <div id="container">
         <div id="c1">
             <video controls autoplay muted loop>
@@ -179,11 +251,10 @@
     </table>
 
     <footer>
-        <br>
         <hr>
-        <br>
         <p>Citation: <a href="https://doi.org/10.1016/j.artmed.2020.101966" target="_blank">Williams, Stefan et al. “Supervised classification of bradykinesia in Parkinson's disease from smartphone videos.” Artificial intelligence in medicine vol. 110 (2020): 101966</a></p>
-    <br></footer>
+        <p>© 2024 Finger Tapping Analysis</p>
+    </footer>
     </center>
     
 </body>
