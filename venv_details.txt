@@ -1,0 +1,3 @@
+virtual environment: python -m venv brad-env
+
+activate virtual environment:: brad-env\Scripts\activate
