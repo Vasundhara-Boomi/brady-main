@@ -234,7 +234,8 @@ class BPlot:
         elif c <= -1:
             self.category = 1
         else:
-            if self.avg > 200:
+            print(self.avg)
+            if self.avg > 190:
                 self.category = 0
             else:
                 self.category = 4
